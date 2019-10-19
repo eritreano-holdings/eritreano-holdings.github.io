@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width">
+<style type="text/css">
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;overflow-y:scroll;height:100%}
+body{margin:0}
+article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}
+audio,canvas,progress,video{display:inline-block;vertical-align:baseline}
+ul{padding:0;margin:0;list-style-type:none;}
+audio:not([controls]){display:none;height:0}
+[hidden],template{display:none}
+a{background-color:transparent}
+a:active,a:hover{outline:0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:700}
+dfn{font-style:italic}
+h1{font-size:2em;margin:.67em 0}
+mark{background:#ff0;color:#000}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:1em 40px}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+pre{overflow:auto}
+code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}
+button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}
+button{overflow:visible}button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+input{line-height:normal}
+input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{height:auto}
+input[type=search]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}
+input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+textarea{overflow:auto}
+optgroup{font-weight:700}
+table{border-collapse:collapse;border-spacing:0}
+td,th{padding:0}
+.viewport{width: 100%; overflow: hidden; position: relative; height: 250px;}
+.slider__w{width: 650%; position: relative;}
+.controls{position: absolute;left: 0; right: 0; top: 50%; margin-top: -17px; width: 100%;}
+.prev, .next{width: 35px; height: 34px; display: block; position: absolute; text-indent: -9999px;}
+.prev{background: url(img/slider-prev.png) no-repeat 0 0; left: -12px;}
+.next{background: url(img/slider-next.png) no-repeat 0 0;right: -12px;}
+</style>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/fonts.css">
+<style type="text/css">
+	.slider-item{float: left;}
+</style>
+<script src="https://use.fontawesome.com/05b47e97a0.js"></script>
+<!-- <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script> -->
+	<script
+  src="https://code.jquery.com/jquery-1.11.1.js"
+  integrity="sha256-MCmDSoIMecFUw3f1LicZ/D/yonYAoHrgiep/3pCH9rw="
+  crossorigin="anonymous"></script>
+	<script src="jquery.mobil.js"></script>
+	<script type="text/javascript">
+  function Slider(){
+					var sliderWrap = $(".slider__w");
+					var viewport = $(".viewport");
+				  var nextLink = $(".next");
+					var prevLink = $(".prev");
+					var slideWidth = viewport.outerWidth();
+					var sliderPosition = sliderWrap.position().left - slideWidth;
+					$(".slider-item").css("width", slideWidth);
+
+						$(window).resize(function(){
+							slideWidth =  viewport.outerWidth();
+							$(".slider-item").css("width", slideWidth);
+						})
+
+						nextLink.click(function(){
+						if(!sliderWrap.is(':animated')) {
+								 sliderWrap.animate({left: sliderPosition}, 800, function(){
+									sliderWrap
+									 .find('.slider-item:first')
+									 .appendTo(sliderWrap)
+									 .parent()
+									 .css({'left': 0});
+								 });
+								}
+							 });
+
+						 prevLink.click(function(){
+							   if(!sliderWrap.is(':animated')) {
+							    sliderWrap
+							     .css({'left': sliderPosition})
+							     .find('.slider-item:last')
+							     .prependTo(sliderWrap)
+							     .parent()
+							     .animate({left: 0}, 800);
+							    }
+							  });
+
+					var interval = setInterval(function(){
+							if(!sliderWrap.is(':animated')) {
+									 sliderWrap.animate({left: sliderPosition}, 800, function(){
+										sliderWrap
+										 .find('.slider-item:first')
+										 .appendTo(sliderWrap)
+										 .parent()
+										 .css({'left': 0});
+									 });
+									}
+						}, 3000);
+
+						viewport.hover(function(){
+							clearInterval(interval);
+						}, function() {
+							interval = setInterval(function(){
+									if(!sliderWrap.is(':animated')) {
+											 sliderWrap.animate({left: sliderPosition}, 800, function(){
+												sliderWrap
+												 .find('.slider-item:first')
+												 .appendTo(sliderWrap)
+												 .parent()
+												 .css({'left': 0});
+											 });
+											}
+								}, 3000);
+		      })
+
+					viewport.on("swipeleft", function(){
+						if(!sliderWrap.is(':animated')) {
+								 sliderWrap.animate({left: sliderPosition}, 800, function(){
+									sliderWrap
+									 .find('.slider-item:first')
+									 .appendTo(sliderWrap)
+									 .parent()
+									 .css({'left': 0});
+								 });
+								}
+					});
+
+					viewport.on("swiperight", function(){
+						if(!sliderWrap.is(':animated')) {
+						 sliderWrap
+							.css({'left': sliderPosition})
+							.find('.slider-item:last')
+							.prependTo(sliderWrap)
+							.parent()
+							.animate({left: 0}, 800);
+						 }
+					});
+				}
+	 $(document).ready(function(){
+		 Slider();
+		 $(".fa").click(function(){
+			if($(".hornav-wrapper").hasClass("mobile")){
+				$(".hornav-wrapper").removeClass("mobile");
+				$(".hornav-wrapper").css("height", "40px");
+			}else{
+				$(".hornav-wrapper").addClass("mobile");
+				$(".hornav-wrapper").css("height", window.innerHeight);
+			}
+		})
+	 })
+	</script>
+<meta name="robots" content="all">
+</head>
+
+<body class="desktop unknown linux homepage template-page" data-browser="unknown" data-browser_version="0" data-platform="linux" data-platform_version="unknown" data-platform_name="unknown">
+	<div class="wrap">
+		<header class="header">
+			<div class="header-top">
+				<div class="header-top__w">
+					<nav class="hornav">
+						<div class="hornav-mobile js__hornav-mobile">
+							<i class="fa fa-bars"></i>
+						</div>
+						<div class="hornav-wrapper js__hornav">
+						<ul class="hornav-layout">
+							<li class="hornav-item active"><a href="index.html" class="hornav-link">ipsum</a></li>
+							<li class="hornav-item"><a href="#" class="hornav-link">ipsum</a></li>
+							<li class="hornav-item"><a href="#" class="hornav-link">ipsum</a></li><li class="hornav-item"><a href="#" class="hornav-link">ipsum</a></li>
+							<li class="hornav-item"><a href="#" class="hornav-link">ipsum</a></li>
+						</ul>
+						<ul class="hornav-layout aside">
+							<li class="hornav-item"><a href="#" class="hornav-link">ipsum</a></li><li class="hornav-item"><a href="minikatalog/index.html" class="hornav-link">ipsum</a></li>
+						</ul>
+						</div>
+					</nav>
+				</div>
+			</div>
+			<div class="header-bottom">
+				<div class="header-bottom__w">
+										<div class="header-logo ">
+					<img src="img/novsiblogo.png" alt="">					</div>
+					<div class="header-slogan">
+						Lorem Ipsum<br>SpamSpam
+					</div>
+					<div class="header-contacts">
+						<div class="header-phone">
+							тел.: +7 (888) <span>888-88-88</span> факс: +7 (888) <span>999-00-11</span>
+						</div>
+						<div class="header-address">
+							192029, Lorem IpsumSpam spam spam spam spam</div>
+						<div class="header-email">
+							<a class="header-email__link" href="mailto:info@novsibtechnology.ru">info@novsibtechnology.ru</a>						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+						<section class="slider-wrap">
+							<div class="slider">
+               <div class="viewport">
+
+								<div class="slider__w">
+					<div class="slider-item" style="background:url(img/1.jpg) no-repeat scroll center center / cover;"></div>
+					<div class="slider-item" style="background:url(img/2.jpg) no-repeat scroll center center / cover;"></div>
+					<div class="slider-item" style="background:url(img/3.jpg) no-repeat scroll center center / cover;"></div>
+					<div class="slider-item" style="background:url(img/4.jpg) no-repeat scroll center center / cover;"></div>
+								</div>
+              </div>
+								<div class="controls">
+                   <div class="controls-direction">
+                   	 <a class="prev" href="#"></a>
+										 <a class="next" href="#"></a>
+                   </div>
+								</div>
+							</div>
+						</section>
+
+		<footer class="footer">
+			<div class="footer-top">
+				<div class="footer-top__w">
+					<div class="footer-company">
+						<div class="footer-company__name">
+							Ipsum Ipsum Ipsum
+						</div>
+						<div class="footer-company__slogan">
+							LoremIpsum LoremIpsumLoremIpsum LoremIpsum LoremIpsum LoremIpsumLoremIpsum LoremIpsumLoremIpsum LoremIpsum LoremIpsum
+						</div>
+					</div>
+					<div class="footer-phone">
+						<div class="footer-phone__icon">
+							<i class="fa fa-phone" aria-hidden="true"></i>
+						</div>
+						<div class="footer-phone__w">
+							тел.: +7 (888) <span>888-88-88</span> факс: +7 (888) <span>999-99-99</span>
+						</div>
+					</div>
+					<div class="footer-address">
+						<div class="footer-phone__icon">
+							<i class="fa fa-map-marker" aria-hidden="true"></i>
+						</div>
+						<div class="footer-address__w">
+							192029, Spam spam spam lorem ipsum spam						</div>
+					</div>
+					<div class="footer-email">
+						<div class="footer-phone__icon">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+						</div>
+						<a class="footer-email__w" href="mailto:info@novsibtechnology.ru">info@novsibtechnology.ru</a>					</div>
+				</div>
+			</div>
+			<div class="footer-bottom">
+				<div class="footer-bottom__w">
+					<div class="footer-copyrights">
+						<div>© 2019 </div>
+						<div class="soline">
+							Lorem Ipsum Spam <a href="#">example.ru</a>
+						</div>
+					</div>
+					<div class="footer-counters">
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+	<div id="deferred"></div></body>
+</html>
